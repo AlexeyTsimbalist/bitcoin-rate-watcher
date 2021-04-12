@@ -15,17 +15,18 @@ public class BitcoinRateService {
             "Current: %f\n" +
             "Lowest for month: %f (%s)\n" +
             "Highest for month: %f (%s)\n";
-    private final JsonResponseParser parser = new JsonResponseParser();
+    
+    private JsonResponseParser parser = new JsonResponseParser();
     private CoindeskClient client = new CoindeskClient();
     
     public String fetchInfoByCurrency(String currency) throws IOException, URISyntaxException, InterruptedException {
         String currentInfo = client.getCurrentInfo(currency);
         String infoForMonth = client.getInfoForMonth(currency);
-    
+        
         Double currentRate = parser.parseCurrentRateResponse(currentInfo, currency);
         Pair<Map.Entry<Double, String>, Map.Entry<Double, String>> ratePair =
                 parser.parseRateForMonthResponse(infoForMonth);
-    
+        
         return new Formatter().format(BITCOIN_RATE_SCOREBOARD, currency.toUpperCase(),
                 currentRate,
                 ratePair.getLeft().getKey(), ratePair.getLeft().getValue(),
@@ -34,6 +35,10 @@ public class BitcoinRateService {
     
     public JsonResponseParser getParser() {
         return parser;
+    }
+    
+    public void setParser(JsonResponseParser parser) {
+        this.parser = parser;
     }
     
     public CoindeskClient getClient() {
