@@ -21,14 +21,26 @@ public class BitcoinRateService {
     public String fetchInfoByCurrency(String currency) throws IOException, URISyntaxException, InterruptedException {
         String currentInfo = client.getCurrentInfo(currency);
         String infoForMonth = client.getInfoForMonth(currency);
-        
+    
         Double currentRate = parser.parseCurrentRateResponse(currentInfo, currency);
         Pair<Map.Entry<Double, String>, Map.Entry<Double, String>> ratePair =
-                parser.parseRateForMonthResponse(infoForMonth, currency);
-        
+                parser.parseRateForMonthResponse(infoForMonth);
+    
         return new Formatter().format(BITCOIN_RATE_SCOREBOARD, currency.toUpperCase(),
                 currentRate,
                 ratePair.getLeft().getKey(), ratePair.getLeft().getValue(),
                 ratePair.getRight().getKey(), ratePair.getRight().getValue()).toString();
+    }
+    
+    public JsonResponseParser getParser() {
+        return parser;
+    }
+    
+    public CoindeskClient getClient() {
+        return client;
+    }
+    
+    public void setClient(CoindeskClient client) {
+        this.client = client;
     }
 }

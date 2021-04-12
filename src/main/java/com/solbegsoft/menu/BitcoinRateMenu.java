@@ -67,23 +67,22 @@ public class BitcoinRateMenu extends AbstractMenu {
         Scanner intScanner = new Scanner(System.in);
         
         if (intScanner.hasNextInt()) {
-            inputResolver.resolveOption(intScanner.nextInt(), commands);
+            inputResolver.resolveOption(intScanner.nextInt(), commands, this::returnAction);
         } else {
             ErrorMessageContext.writeMessage(ERROR_HAS_OCCURRED);
-            chooseOperation();
+            returnAction();
         }
     }
     
     private void initCommands() {
         commands = new ActionHolder();
         
-        initReturnAction();
         commands.put(1, this::display);
         commands.put(2, CommonActions::exitApplication);
     }
     
     @Override
-    protected void initReturnAction() {
-        commands.put(-1, this::chooseOperation);
+    public void returnAction() {
+        chooseOperation();
     }
 }

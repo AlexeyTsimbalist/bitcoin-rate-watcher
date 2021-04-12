@@ -34,7 +34,7 @@ public class MainMenu extends AbstractMenu {
             Scanner scanner = new Scanner(System.in);
             
             if (scanner.hasNextInt()) {
-                inputResolver.resolveOption(scanner.nextInt(), commands);
+                inputResolver.resolveOption(scanner.nextInt(), commands, this::returnAction);
             } else {
                 ErrorMessageContext.writeMessage(ERROR_HAS_OCCURRED);
                 display();
@@ -48,7 +48,6 @@ public class MainMenu extends AbstractMenu {
     private void initCommands() {
         commands = new ActionHolder();
         
-        initReturnAction();
         commands.put(1, bitcoinRateMenu::display);
         commands.put(2, CommonActions::exitApplication);
     }

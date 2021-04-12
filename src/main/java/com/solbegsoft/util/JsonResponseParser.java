@@ -21,14 +21,14 @@ public class JsonResponseParser {
         return Double.parseDouble(stringValue.replaceAll(",", ""));
     }
     
-    public Pair<Map.Entry<Double, String>, Map.Entry<Double, String>> parseRateForMonthResponse(String response, String currency) {
+    public Pair<Map.Entry<Double, String>, Map.Entry<Double, String>> parseRateForMonthResponse(String response) {
         validateResponse(response);
-        
+    
         JSONObject bpi = new JSONObject(response).getJSONObject("bpi");
-        
+    
         Set<String> keys = bpi.keySet();
         TreeMap<Double, String> rateForMonth = new TreeMap<>();
-        
+    
         for (String date : keys) {
             double rate = bpi.getDouble(date);
             rateForMonth.put(rate, date);
